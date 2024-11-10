@@ -1,26 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function AddProduct()
 {
+    const [title, setTitle] = useState('');
+    const [price, setPrice] = useState(0);
+    let navigate = useNavigate();
+
+    const formSubmit = (e) => {
+        e.preventDefault();
+
+        fetch("http://localhost:9000/products", {
+            method: "POST",
+            headers: {
+                "Content-Type" : "application/json"
+            },
+            body: JSON.stringify({title: title, price: price})
+        })
+        .then((response) => response.json())
+        .then(() => {
+            console.log("Added Successfully!");
+            navigate('/products');
+        })
+    };
+
     return (
         <>
-        <h1>Add Product</h1>
-        <form>
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Email address</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"/>
-              <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-            </div>
-            <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">Password</label>
-              <input type="password" class="form-control" id="exampleInputPassword1"/>
-            </div>
-            <div class="mb-3 form-check">
-              <input type="checkbox" class="form-check-input" id="exampleCheck1"/>
-              <label class="form-check-label" for="exampleCheck1">Check me out</label>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+            <h1>Add Product</h1>
+            <form onSubmit={formSubmit}>
+                <div className="mb-3">
+                  <label htmlFor="ProductTitle" className="form-label">Title</label>
+                  <input onChange={(e) => setTitle(e.target.value)} placeholder="Product Title" type="text" className="form-control" id="ProductTitle" aria-describedby="Product Title"/>
+                </div>
+
+                <div className="mb-3">
+                  <label htmlFor="ProductPrice" className="form-label">Price</label>
+                  <input onChange={(e) => setPrice(e.target.value)} placeholder="Product Price" type="number" className="form-control" id="ProductPrice" aria-describedby="Product Price"/>
+                </div>
+
+                <button type="submit" className="btn btn-primary">Add Product</button>
+            </form>
         </>
     );
 }

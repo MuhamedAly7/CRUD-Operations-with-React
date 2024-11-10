@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Products.css";
+import Swal from "sweetalert2";
 
 function Products()
 {
@@ -16,17 +17,25 @@ function Products()
         .then((data) => setProducts(data))
     }
 
-    const deleteProduct = (productId) => {
-        fetch(`http://localhost:9000/products/${productId}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type" : 'application/json',
+    const deleteProduct = (product) => {
+        Swal.fire({
+            title: `are you sure to delete ${product.title}?`,
+            showCancelButton: true
+        }).then((data) => {
+            if(data.isConfirmed)
+            {
+                fetch(`http://localhost:9000/products/${product.id}`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type" : 'application/json',
+                    }
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log("Deleted successfully:", data);
+                    getProducts();
+                })
             }
-        })
-        .then((response) => response.json())
-        .then((data) => {
-            console.log("Deleted successfully:", data);
-            getProducts();
         })
     }
 
@@ -51,12 +60,12 @@ function Products()
                                     <tr key={product.id}>
                                         <td>{product.id}</td>
                                         <td>{product.title}</td>
-                                        <td>{product.description.slice(0, 20)}...</td>
+                                        <td>{product.description ? product.description.slice(0, 20) : ""}...</td>
                                         <td>{product.price}$</td>
                                         <button className="btn btn-primary mx-1 btn-sm">Edit</button>
                                         <Link className="btn btn-info mx-1 btn-sm" to={`/products/${product.id}`}>View</Link>
                                         <button className="btn btn-danger mx-1 btn-sm" onClick={() => {
-                                            deleteProduct(product.id);
+                                            deleteProduct(product);
                                         }}>Delete</button>
                                     </tr>
                                 </>
