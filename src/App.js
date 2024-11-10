@@ -5,6 +5,8 @@ import { Routes, Link, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import About from './pages/About';
 import Products from './pages/Products';
+import AddProduct from './pages/AddProduct';
+import ProductDetails from './pages/ProductDetails';
 
 function App() {
   return (
@@ -25,6 +27,12 @@ function App() {
                   }/>
                   <Route path='products' element={
                     <Products></Products>
+                  }/>
+                  <Route path='products/add' element={
+                    <AddProduct></AddProduct>
+                  }/>
+                  <Route path='products/:productId' element={
+                    <ProductDetails></ProductDetails>
                   }/>
                 </Routes>
               </div>
