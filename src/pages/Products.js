@@ -62,7 +62,7 @@ function Products()
                                         <td>{product.title}</td>
                                         <td>{product.description ? product.description.slice(0, 20) : ""}...</td>
                                         <td>{product.price}$</td>
-                                        <button className="btn btn-primary mx-1 btn-sm">Edit</button>
+                                        <Link className="btn btn-primary mx-1 btn-sm" to={`/product/${product.id}`}>Edit</Link>
                                         <Link className="btn btn-info mx-1 btn-sm" to={`/products/${product.id}`}>View</Link>
                                         <button className="btn btn-danger mx-1 btn-sm" onClick={() => {
                                             deleteProduct(product);

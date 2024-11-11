@@ -7,6 +7,7 @@ import About from './pages/About';
 import Products from './pages/Products';
 import AddProduct from './pages/AddProduct';
 import ProductDetails from './pages/ProductDetails';
+import EditProduct from './pages/EditProduct';
 
 function App() {
   return (
@@ -33,6 +34,9 @@ function App() {
                   }/>
                   <Route path='products/:productId' element={
                     <ProductDetails></ProductDetails>
+                  }/>
+                  <Route path='product/:productId' element={
+                    <EditProduct></EditProduct>
                   }/>
                 </Routes>
               </div>
